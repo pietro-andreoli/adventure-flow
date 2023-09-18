@@ -1,0 +1,106 @@
+{
+  "start": {
+    "text": "You're walking through the streets when a dog with no collar approaches. It drops a shimmering gold bar from its mouth in front of you and wags its tail.",
+    "title": "A Surprising Encounter",
+    "choices": [
+      {
+        "text": "Pick up the gold bar",
+        "next": "gold_inspection"
+      },
+      {
+        "text": "Pat the dog",
+        "next": "dog_licks_face"
+      }
+    ]
+  },
+  "gold_inspection": {
+    "text": "The gold bar feels heavy and genuine. The dog sits patiently, looking up at you with expectant eyes.",
+    "title": "Inspecting the Gold",
+    "choices": [
+      {
+        "text": "Search for the dog's owner",
+        "next": "meet_owner"
+      },
+      {
+        "text": "Head to a pawn shop with the gold",
+        "next": "pawn_shop"
+      }
+    ]
+  },
+  "dog_licks_face": {
+    "text": "The dog happily licks your face. When you pull back, you notice it's pointing towards an alley with its paw.",
+    "title": "Friendly Gesture",
+    "choices": [
+      {
+        "text": "Follow the dog into the alley",
+        "next": "secret_base"
+      },
+      {
+        "text": "Give the dog a treat and move on",
+        "next": "funny_ending"
+      }
+    ]
+  },
+  "meet_owner": {
+    "text": "The dog leads you to a man who looks distraught. \"Thank you for finding my dog and gold!\" he says, offering you a reward.",
+    "title": "Meeting the Owner",
+    "choices": [
+      {
+        "text": "Accept the reward",
+        "next": "grateful_ending"
+      },
+      {
+        "text": "Refuse and just be glad the dog is safe",
+        "next": "heroic_ending"
+      }
+    ]
+  },
+  "pawn_shop": {
+    "text": "The pawn shop owner is amazed by the gold bar and offers a high price. The dog, however, looks sad.",
+    "title": "The Pawn Shop",
+    "choices": [
+      {
+        "text": "Sell the gold",
+        "next": "rich_ending"
+      },
+      {
+        "text": "Change your mind and return the gold to the dog",
+        "next": "meet_owner"
+      }
+    ]
+  },
+  "secret_base": {
+    "text": "The dog reveals a secret base full of gold and treasures. There's a note: 'For the one who treats animals kindly.'",
+    "title": "The Secret Base",
+    "choices": [
+      {
+        "text": "Take the treasure",
+        "next": "rich_ending"
+      },
+      {
+        "text": "Donate the treasure to animal shelters",
+        "next": "heroic_ending"
+      }
+    ]
+  },
+  "grateful_ending": {
+    "text": "You accept the reward and the grateful owner showers you with more gifts. You and the dog become the best of friends.",
+    "title": "A Grateful Ending",
+    "end": true
+  },
+  "heroic_ending": {
+    "text": "The man is touched by your kindness. News spreads of your good deed and the community celebrates you. The dog stays by your side as your loyal companion.",
+    "title": "Heroic Acts",
+    "end": true
+  },
+  "rich_ending": {
+    "text": "With the gold and treasures, you live a life of luxury. However, sometimes you wonder about the adventurous dog and where it's off to next.",
+    "title": "A Luxurious Life",
+    "end": true
+  },
+  "funny_ending": {
+    "text": "The dog grabs the gold bar and trots off, only to return moments later with a funny hat. It seems the dog just wanted to trade for some fashionable attire!",
+    "title": "A Comical Twist",
+    "end": true
+  }
+}

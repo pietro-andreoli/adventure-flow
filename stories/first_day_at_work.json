@@ -1,0 +1,226 @@
+{
+  "start": {
+    "title": "First day at the job",
+    "text": "A programmer is hired for a new job at a tech company. He was told it would be a 'fun' position in a fast paced environment, where he would face 'interesting' problems and work with industry professionals. Upon arriving at the office, he finds most desks are empty. Asking around for his manager, he finds that most of the employees working there are also new hires, and arent familiar with who hes looking for. After wandering around the eerily empty office, you finally locate your new manager. He hands you a 2007 Lenovo ThinkPad, with a few keys missing. He starts to tell you about their app and codebase.",
+    "choices": [
+      {
+        "text": "Ask 'How old is the app?'",
+        "next": "app_age"
+      },
+      {
+        "text": "Ask 'What is the tech stack?'",
+        "next": "tech_stack"
+      },
+      {
+        "text": "Ask 'Where is the lead dev?'",
+        "next": "lead_dev"
+      }
+    ]
+  },
+  "app_age": {
+    "title": "App's age revealed",
+    "text": "The manager pauses, squinting as he calculates, 'Our app? Oh, it's about 17 years old. We've kept the original framework, and it runs on Python 2.3.'",
+    "choices": [
+      {
+        "text": "Scream internally",
+        "next": "tech_stack"
+      },
+      {
+        "text": "Ask about database management",
+        "next": "database"
+      },
+      {
+        "text": "Flee from the building in horror",
+        "next": "horror_ending"
+      }
+    ]
+  },
+  "tech_stack": {
+    "title": "Tech stack horrors",
+    "text": "He beams with pride, 'We've got a robust stack! It's mostly Flash and Java Applets. Oh, and we've just started to integrate Silverlight.'",
+    "choices": [
+      {
+        "text": "Choke on your coffee",
+        "next": "lead_dev"
+      },
+      {
+        "text": "Inquire about their version control",
+        "next": "version_control"
+      },
+      {
+        "text": "Light the laptop on fire for a ritualistic cleansing",
+        "next": "fire_ending"
+      }
+    ]
+  },
+  "lead_dev": {
+    "title": "Absent lead dev",
+    "text": "He scratches his head, 'Lead dev? Well, we had one a while ago, but he's on a long vacation. We get a postcard from him every few months. Last one was from... Bali?'",
+    "choices": [
+      {
+        "text": "Ask about the team's workflow",
+        "next": "workflow"
+      },
+      {
+        "text": "Laugh your way out of the building",
+        "next": "laugh_ending"
+      },
+      {
+        "text": "Inquire about database management",
+        "next": "database"
+      }
+    ]
+  },
+  "database": {
+    "title": "Excel as a database",
+    "text": "He shows you an Excel file named 'FINAL_REAL_DB_v32'. 'This is our database! We have a neat Visual Basic script writing to and reading from it.'",
+    "choices": [
+      {
+        "text": "Inquire about backups",
+        "next": "backups"
+      },
+      {
+        "text": "Rush to the nearest window for fresh air",
+        "next": "window_ending"
+      }
+    ]
+  },
+  "version_control": {
+    "title": "Version control via email",
+    "text": "He chuckles, 'Oh, we just email the files to each other. If something goes wrong, there's always the recycle bin.'",
+    "choices": [
+      {
+        "text": "Inquire about code reviews",
+        "next": "code_review"
+      },
+      {
+        "text": "Set up a sacrificial altar for the ThinkPad",
+        "next": "fire_ending"
+      }
+    ]
+  },
+  "workflow": {
+    "title": "Reboot fixes everything",
+    "text": "He says, 'It's simple. When something breaks, we fix it. Usually by turning it off and on again. Sometimes by hitting the server.'",
+    "choices": [
+      {
+        "text": "Ask about their deployment process",
+        "next": "deployment"
+      },
+      {
+        "text": "Run, just run",
+        "next": "horror_ending"
+      }
+    ]
+  },
+  "code_review": {
+    "title": "What's a code review?",
+    "text": "He raises an eyebrow, 'Code what now? We trust each other here. No need for those fancy processes.'",
+    "choices": [
+      {
+        "text": "Gather your things subtly",
+        "next": "subtle_ending"
+      },
+      {
+        "text": "Seek the nearest exit",
+        "next": "horror_ending"
+      }
+    ]
+  },
+  "backups": {
+    "title": "USB stick backups",
+    "text": "He confidently states, 'Every Friday, I copy the Excel file to my USB stick. Got dozens of them in my drawer.'",
+    "choices": [
+      {
+        "text": "Feign illness and leave",
+        "next": "sick_ending"
+      },
+      {
+        "text": "Ask about security measures",
+        "next": "security"
+      }
+    ]
+  },
+  "deployment": {
+    "title": "Live deployments",
+    "text": "He grins, 'When we think something is ready, we just copy it over to the live server. We just send an email to users to tell them to stop using the app for a few minutes.'",
+    "choices": [
+      {
+        "text": "Ask about downtime",
+        "next": "downtime"
+      },
+      {
+        "text": "Politely excuse yourself forever",
+        "next": "polite_ending"
+      }
+    ]
+  },
+  "security": {
+    "title": "Double-locked server room",
+    "text": "He winks, 'Security is our top concern. That's why the server room door has two locks. And we never click on emails from princes.'",
+    "choices": [
+      {
+        "text": "Initiate escape plan alpha",
+        "next": "horror_ending"
+      },
+      {
+        "text": "Laugh until you cry",
+        "next": "laugh_ending"
+      }
+    ]
+  },
+  "downtime": {
+    "title": "Server unplugs",
+    "text": "He shrugs, 'Only when there's a power cut. Or when the cleaner unplugs the server to vacuum. Or when our popcorn machine blows a fuse, but movie night is only once a week.'",
+    "choices": [
+      {
+        "text": "Plan your escape route",
+        "next": "horror_ending"
+      },
+      {
+        "text": "Recommend a cloud solution, while heading for the door",
+        "next": "cloud_ending"
+      }
+    ]
+  },
+  "horror_ending": {
+    "title": "Swift exit",
+    "text": "You didn't even look back as you fled from the building, vowing to read job descriptions more carefully in the future.",
+    "end": true
+  },
+  "fire_ending": {
+    "title": "Burning first impression",
+    "text": "You set the laptop on fire in a ritualistic attempt to cleanse the building of its technological sins. The fire alarm blares. Everyone evacuates. At least you made an impression on your first day!",
+    "end": true
+  },
+  "laugh_ending": {
+    "title": "Uncontrollable laughter",
+    "text": "You burst into uncontrollable laughter, drawing the attention of the few remaining employees. You laugh all the way out of the building, realizing this was too absurd to be true.",
+    "end": true
+  },
+  "window_ending": {
+    "title": "Breath of fresh air",
+    "text": "You rush to the nearest window, fling it open and take several deep breaths. The crisp, fresh air clears your head. If you aim it just right, you might be able to land in those bushes and make an escape.",
+    "end": true
+  },
+  "subtle_ending": {
+    "title": "Stealthy exit",
+    "text": "You subtly gather your belongings and head for the door. Your manager, deep in thought, doesn't even notice.",
+    "end": true
+  },
+  "sick_ending": {
+    "title": "Feigned illness",
+    "text": "You feign a sudden illness, clutching your stomach for added effect. 'I think I ate something bad,' you mutter, making a swift exit.",
+    "end": true
+  },
+  "polite_ending": {
+    "title": "Graceful goodbye",
+    "text": "You stand up, politely thank the manager for his time, and inform him you've made a grave mistake. You then stroll out with as much dignity as you can muster.",
+    "end": true
+  },
+  "cloud_ending": {
+    "title": "Cloudy daydreaming",
+    "text": "You mention something about migrating to the cloud, but your voice trails off as you're already halfway to the exit. The skies outside seem to promise a brighter future.",
+    "end": true
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "start": {
+    "text": "While wandering through a forest, a woman stumbles upon a shallow pond. There, she spots a rusty sword. Curious, she picks it up and to her astonishment, it begins to speak!",
+    "title": "The Mysterious Sword",
+    "choices": [
+      {
+        "text": "Listen to the sword",
+        "next": "sword_story"
+      },
+      {
+        "text": "Drop it in shock",
+        "next": "drop_sword"
+      }
+    ]
+  },
+  "sword_story": {
+    "text": "\"Ah, a kind soul,\" the sword murmurs. \"I've been waiting for someone to free me. Will you aid me in my quest to defeat the Dark Sorcerer?\"",
+    "title": "A Plea from the Blade",
+    "choices": [
+      {
+        "text": "Agree to help",
+        "next": "prep_for_battle"
+      },
+      {
+        "text": "Politely decline",
+        "next": "leave_forest"
+      }
+    ]
+  },
+  "drop_sword": {
+    "text": "The sword screams as it lands back into the water. Scared, the woman decides to leave the forest immediately.",
+    "title": "A Shocking Revelation",
+    "choices": [
+      {
+        "text": "Run away quickly",
+        "next": "trip_over_roots"
+      },
+      {
+        "text": "Calmly walk away",
+        "next": "leave_forest"
+      }
+    ]
+  },
+  "trip_over_roots": {
+    "text": "In her haste, the woman trips over some hidden roots and lands face-first in a pile of leaves. A squirrel nearby seems to be laughing at the comical sight.",
+    "title": "A Hasty Retreat",
+    "choices": [
+      {
+        "text": "Shake fist at the squirrel",
+        "next": "funny_ending"
+      }
+    ]
+  },
+  "prep_for_battle": {
+    "text": "Empowered with the talking sword, the woman undergoes rigorous training. Soon, she feels ready to confront the Dark Sorcerer.",
+    "title": "Preparing for the Showdown",
+    "choices": [
+      {
+        "text": "Confront the sorcerer",
+        "next": "heroic_ending"
+      },
+      {
+        "text": "Decide it's too much work",
+        "next": "funny_ending"
+      }
+    ]
+  },
+  "leave_forest": {
+    "text": "Deciding that talking swords aren't her thing, the woman leaves the forest. Maybe she'll come back with some friends.",
+    "title": "A Change of Heart",
+    "choices": [
+      {
+        "text": "Return with friends",
+        "next": "investigate_with_friends"
+      },
+      {
+        "text": "Never come back",
+        "next": "normal_life"
+      }
+    ]
+  },
+  "investigate_with_friends": {
+    "text": "She returns with friends, but the pond is now mysteriously empty. They all have a picnic and enjoy a sunny day instead.",
+    "title": "A Day Out With Friends",
+    "choices": [
+      {
+        "text": "End the adventure here",
+        "next": "normal_life"
+      }
+    ]
+  },
+  "heroic_ending": {
+    "text": "After a fierce battle, the woman, with the sword's guidance, defeats the Dark Sorcerer, restoring peace to the land. They become legends, their story told for generations.",
+    "title": "The Heroic Conclusion",
+    "end": true
+  },
+  "funny_ending": {
+    "text": "The woman, deciding adventuring isn't for her, opens up a small stand selling 'Genuine Talking Swords' (they don't actually talk). Business booms!",
+    "title": "An Unexpected Business Venture",
+    "end": true
+  },
+  "normal_life": {
+    "text": "The woman continues her regular life, occasionally chuckling at the memory of the 'talking' sword. It remains an unsolved mystery in her life.",
+    "title": "Back to Normalcy",
+    "end": true
+  }
+}

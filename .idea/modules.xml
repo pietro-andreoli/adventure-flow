@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/adventure-flow-gpt.iml" filepath="$PROJECT_DIR$/.idea/adventure-flow-gpt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/adventure-flow.iml" filepath="$PROJECT_DIR$/.idea/adventure-flow.iml" />
     </modules>
   </component>
 </project>
