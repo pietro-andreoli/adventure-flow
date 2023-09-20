@@ -4,6 +4,7 @@ import './App.css';
 import FlowComponent from "./FlowComponent";
 import { PrimeReactProvider } from "primereact/api";
 import { stories, Story } from "./Story";
+import './styles.css';
 
 function App() {
   return (
