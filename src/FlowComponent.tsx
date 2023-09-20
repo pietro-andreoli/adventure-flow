@@ -181,8 +181,9 @@ const FlowComponent = (props: FlowComponentProps) => {
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     fitView
-                    attributionPosition="top-right">
-                    <MiniMap style={{height: "250px"}} zoomable pannable nodeStrokeWidth={3} />
+                    attributionPosition="top-right"
+                    panOnScroll={true}>
+                    <MiniMap pannable zoomable />
                     <Controls />
                     <Background color="#aaa" gap={16} variant={backgroundType.code as BackgroundVariant} />
                 </ReactFlow>
