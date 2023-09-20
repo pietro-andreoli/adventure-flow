@@ -22,16 +22,12 @@
     "text": "The manager pauses, squinting as he calculates, 'Our app? Oh, it's about 17 years old. We've kept the original framework, and it runs on Python 2.3.'",
     "choices": [
       {
-        "text": "Scream internally",
-        "next": "tech_stack"
-      },
-      {
         "text": "Ask about database management",
         "next": "database"
       },
       {
         "text": "Flee from the building in horror",
-        "next": "horror_ending"
+        "next": "missing_requirements"
       }
     ]
   },
@@ -39,10 +35,6 @@
     "title": "Tech stack horrors",
     "text": "He beams with pride, 'We've got a robust stack! It's mostly Flash and Java Applets. Oh, and we've just started to integrate Silverlight.'",
     "choices": [
-      {
-        "text": "Choke on your coffee",
-        "next": "lead_dev"
-      },
       {
         "text": "Inquire about their version control",
         "next": "version_control"
@@ -62,12 +54,8 @@
         "next": "workflow"
       },
       {
-        "text": "Laugh your way out of the building",
-        "next": "laugh_ending"
-      },
-      {
-        "text": "Inquire about database management",
-        "next": "database"
+        "text": "Could this be an opportunity?",
+        "next": "leadership_opportunity"
       }
     ]
   },
@@ -108,10 +96,14 @@
         "next": "deployment"
       },
       {
-        "text": "Run, just run",
-        "next": "horror_ending"
+        "text": "Hitting the server? Like an old TV? Thats not how tech works...",
+        "next": "smack_the_server"
       }
     ]
+  },
+  "smack_the_server": {
+    "title": "Hitting the server? Like an old TV? Thats not how tech works...",
+    "text": "Did he say that they hit the server? This is not a good sign. You decide the best course of action is to just leave. On your way out you notice the server he was talking about. Looks like a 2013 macbook pro. You decide to hit it. It works. You leave the office, never to return."
   },
   "code_review": {
     "title": "What's a code review?",
@@ -122,10 +114,15 @@
         "next": "subtle_ending"
       },
       {
-        "text": "Seek the nearest exit",
-        "next": "horror_ending"
+        "text": "'Oh is that my phone I hear? gotta get that...'",
+        "next": "pretend_to_get_call"
       }
     ]
+  },
+  "pretend_to_get_call":  {
+    "title": "Pretend to get a call",
+    "text": "You pretend to get a call, and excuse yourself. You never return to the office.",
+    "end": true
   },
   "backups": {
     "title": "USB stick backups",
@@ -188,6 +185,11 @@
     "text": "You didn't even look back as you fled from the building, vowing to read job descriptions more carefully in the future.",
     "end": true
   },
+  "missing_requirements": {
+    "title": "Missing requirements",
+    "text": "Python 2.3? You aren't sure if Pycharm would even support that. In a moment of clairvoyance, you realize that this is the first of many red flags. You pretend you're in the wrong office building, you were applying for a job at the company next door. You leave, never to return.",
+    "end": true
+  },
   "fire_ending": {
     "title": "Burning first impression",
     "text": "You set the laptop on fire in a ritualistic attempt to cleanse the building of its technological sins. The fire alarm blares. Everyone evacuates. At least you made an impression on your first day!",
@@ -197,6 +199,20 @@
     "title": "Uncontrollable laughter",
     "text": "You burst into uncontrollable laughter, drawing the attention of the few remaining employees. You laugh all the way out of the building, realizing this was too absurd to be true.",
     "end": true
+  },
+  "leadership_opportunity": {
+    "title": "Leadership Opportunity",
+    "text": "That sounds... incredibly sketchy. Leadership is important, but maybe this is an opportunity.",
+    "choices": [
+      {
+        "text": "Maybe you could replace this guy and get a bigger paycheque. Ask about the deployment details to demonstrate your expertise.",
+        "next": "deployment"
+      },
+      {
+        "text": "The only dev disappeared? So all his work would fall on you too? Whats the salary again? Maybe this isnt such a good idea...",
+        "next": "polite_ending"
+      }
+    ]
   },
   "window_ending": {
     "title": "Breath of fresh air",
