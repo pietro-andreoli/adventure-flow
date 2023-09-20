@@ -1,4 +1,14 @@
-import { applyEdgeChanges, applyNodeChanges, Edge, Node, ReactFlow, MiniMap, Background, Controls } from "reactflow";
+import {
+    applyEdgeChanges,
+    applyNodeChanges,
+    Edge,
+    Node,
+    ReactFlow,
+    MiniMap,
+    Background,
+    Controls,
+    BackgroundVariant
+} from "reactflow";
 import { useCallback, useEffect, useState } from "react";
 import { Story, StoryNode } from "./Story";
 import 'reactflow/dist/style.css';
@@ -7,12 +17,13 @@ import { tree } from "d3";
 import "primereact/resources/primereact.min.css";
 import { Dropdown } from "primereact/dropdown";
 import { ListBox } from "primereact/listbox";
+import { InputSwitch, InputSwitchChangeEvent } from "primereact/inputswitch";
 
 export interface FlowComponentProps {
     story: Story;
 }
 
-interface EdgeStyleOption {
+interface DropdownOption {
     name: string;
     code: string;
 }
@@ -23,14 +34,22 @@ const FlowComponent = (props: FlowComponentProps) => {
     const [story, setStory] = useState<Story>(props.story);
     const [currentStoryNode, setCurrentStoryNode] = useState<StoryNode | null>(null);
     const [currentFlowNode, setCurrentFlowNode] = useState<Node | null>(null);
-    const [edgeStyle, setEdgeStyle] = useState<EdgeStyleOption>({ name: "Curved", code: "default" });
+    const [edgeStyle, setEdgeStyle] = useState<DropdownOption>({ name: "Curved", code: "default" });
+    const [showEdgeLabels, setShowEdgeLabels] = useState<boolean>(true);
+    const [backgroundType, setBackgroundType] = useState<DropdownOption>({ name: "Dots", code: "dots" });
 
-    const edgeStyleOptions: EdgeStyleOption[] = [
+    const edgeStyleOptions: DropdownOption[] = [
         { name: "Curved", code: "default" },
         { name: "Straight", code: "straight" },
         { name: "Step", code: "step" },
         { name: "Smooth Step", code: "smoothstep" },
     ];
+
+    const backgroundTypeOptions: DropdownOption[] = [
+        { name: "Dots", code: BackgroundVariant.Dots },
+        { name: "Lines", code: BackgroundVariant.Lines },
+        { name: "Crosshatch", code: BackgroundVariant.Cross },
+    ]
 
     useEffect(() => {
         setStory(props.story);
@@ -39,19 +58,23 @@ const FlowComponent = (props: FlowComponentProps) => {
     useEffect(() => {
         const formattedNodes = layoutNodes(story.flowNodes, story.flowEdges);
         setNodes(formattedNodes);
-        const updatedEdges = story.flowEdges.map(edge => { return { ...edge, type: edgeStyle.code } });
+        const updatedEdges = story.flowEdges.map(edge => {
+            return {
+                ...edge,
+                // Update edge style
+                type: edgeStyle.code,
+                // Update edge label visibility
+                label: showEdgeLabels ? edge.label : undefined
+            }
+        });
         setEdges(updatedEdges);
         const startingNode = story.flowNodes.find(n => n.id === "start");
         if (startingNode) {
             setCurrentFlowNode(startingNode);
         }
 
-    }, [story]);
+    }, [story, edgeStyle, showEdgeLabels]);
 
-    useEffect(() => {
-        const updatedEdges = story.flowEdges.map(edge => { return { ...edge, type: edgeStyle.code } });
-        setEdges(updatedEdges);
-    }, [edgeStyle]);
 
     const onNodesChange = useCallback(
         (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -98,6 +121,18 @@ const FlowComponent = (props: FlowComponentProps) => {
         setEdgeStyle(styleOption);
     }
 
+    const handleShowEdgeLabelChange = (e: InputSwitchChangeEvent) => {
+        if (e.value !== undefined && e.value !== null) {
+            setShowEdgeLabels(e.value);
+        }
+    }
+
+    const handleBackgroundTypeChange = (e: any) => {
+        if (e.value) {
+            setBackgroundType(e.value);
+        }
+    }
+
     return (
         <div>
             <h2>Flow Page</h2>
@@ -110,7 +145,7 @@ const FlowComponent = (props: FlowComponentProps) => {
                 alignItems: "center"}}>
                 <span className="p-float-label">
                     <Dropdown
-                        // inputId={"edgeStyleDropdown"}
+                        inputId={"edgeStyleDropdown"}
                         value={edgeStyle}
                         onChange={(e) => handleEdgeStyleChange(e.value)}
                         options={edgeStyleOptions}
@@ -119,15 +154,25 @@ const FlowComponent = (props: FlowComponentProps) => {
                         className="w-full md:w-14rem">
 
                     </Dropdown>
-                    <label htmlFor="edgeStyleDropdown">Select an Edge Style</label>
+                    <label htmlFor="edgeStyleDropdown">Edge Style</label>
                 </span>
+                <span className="p-float-label">
+                    <Dropdown
+                        inputId={"backgroundStyleDropdown"}
+                        value={backgroundType}
+                        onChange={(e) => handleBackgroundTypeChange(e)}
+                        options={backgroundTypeOptions}
+                        optionLabel="name"
+                        style={{display: "flex", width: "200px"}}
+                        className="w-full md:w-14rem">
 
-                {/*<select value={edgeStyle} onChange={e => handleEdgeStyleChange(e.target.value)}>*/}
-                {/*    <option value="default">Curved</option>*/}
-                {/*    <option value="straight">Straight</option>*/}
-                {/*    <option value="step">Step</option>*/}
-                {/*    <option value="smoothstep">Smoothstep</option>*/}
-                {/*</select>*/}
+                    </Dropdown>
+                    <label htmlFor="backgroundStyleDropdown">Background Style</label>
+                </span>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    <label style={{paddingBottom: "4px"}} htmlFor="edgeStyleSwitch">Toggle Edge Labels</label>
+                    <InputSwitch inputId="edgeStyleSwitch" checked={showEdgeLabels} onChange={(e) => handleShowEdgeLabelChange(e)} />
+                </div>
             </div>
             <div style={{ width: '100vw', height: '80vh' }}>
                 <ReactFlow
@@ -139,7 +184,7 @@ const FlowComponent = (props: FlowComponentProps) => {
                     attributionPosition="top-right">
                     <MiniMap style={{height: "250px"}} zoomable pannable nodeStrokeWidth={3} />
                     <Controls />
-                    <Background color="#aaa" gap={16} />
+                    <Background color="#aaa" gap={16} variant={backgroundType.code as BackgroundVariant} />
                 </ReactFlow>
 
             </div>

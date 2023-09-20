@@ -69,7 +69,8 @@ export class Story {
                         id: `${k}-${choice.next}`,
                         source: k,
                         target: choice.next,
-                        type: "default"
+                        type: "default",
+                        label: choice.text
                     }
                     edges.push(edge);
                 }
