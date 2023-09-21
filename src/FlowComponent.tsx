@@ -18,9 +18,9 @@ import "primereact/resources/primereact.min.css";
 import { Dropdown } from "primereact/dropdown";
 import { ListBox } from "primereact/listbox";
 import { InputSwitch, InputSwitchChangeEvent } from "primereact/inputswitch";
+import StorySelectorComponent from "./StorySelectorComponent";
 
 export interface FlowComponentProps {
-    story: Story;
 }
 
 interface DropdownOption {
@@ -31,7 +31,7 @@ interface DropdownOption {
 const FlowComponent = (props: FlowComponentProps) => {
     const [nodes, setNodes] = useState<Node[]>([]);
     const [edges, setEdges] = useState<Edge[]>([]);
-    const [story, setStory] = useState<Story>(props.story);
+    const [story, setStory] = useState<Story>();
     const [currentStoryNode, setCurrentStoryNode] = useState<StoryNode | null>(null);
     const [currentFlowNode, setCurrentFlowNode] = useState<Node | null>(null);
     const [edgeStyle, setEdgeStyle] = useState<DropdownOption>({ name: "Curved", code: "default" });
@@ -52,25 +52,37 @@ const FlowComponent = (props: FlowComponentProps) => {
     ]
 
     useEffect(() => {
-        setStory(props.story);
+
     }, []);
 
+    // useEffect(() => {
+    //     if (story) {
+    //         const startingNode = story.flowNodes.find(n => n.id === "start");
+    //         if (startingNode) {
+    //             setCurrentFlowNode(startingNode);
+    //             setNodes([startingNode]);
+    //         }
+    //     }
+    // }, [story]);
+
     useEffect(() => {
-        const formattedNodes = layoutNodes(story.flowNodes, story.flowEdges);
-        setNodes(formattedNodes);
-        const updatedEdges = story.flowEdges.map(edge => {
-            return {
-                ...edge,
-                // Update edge style
-                type: edgeStyle.code,
-                // Update edge label visibility
-                label: showEdgeLabels ? edge.label : undefined
+        if (story) {
+            const formattedNodes = layoutNodes(story.flowNodes, story.flowEdges);
+            setNodes(formattedNodes);
+            const updatedEdges = story.flowEdges.map(edge => {
+                return {
+                    ...edge,
+                    // Update edge style
+                    type: edgeStyle.code,
+                    // Update edge label visibility
+                    label: showEdgeLabels ? edge.label : undefined
+                }
+            });
+            setEdges(updatedEdges);
+            const startingNode = story.flowNodes.find(n => n.id === "start");
+            if (startingNode) {
+                setCurrentFlowNode(startingNode);
             }
-        });
-        setEdges(updatedEdges);
-        const startingNode = story.flowNodes.find(n => n.id === "start");
-        if (startingNode) {
-            setCurrentFlowNode(startingNode);
         }
 
     }, [story, edgeStyle, showEdgeLabels]);
@@ -143,6 +155,7 @@ const FlowComponent = (props: FlowComponentProps) => {
                 flexDirection: "row",
                 justifyContent: "space-evenly",
                 alignItems: "center"}}>
+                <StorySelectorComponent onStoryChange={setStory}></StorySelectorComponent>
                 <span className="p-float-label">
                     <Dropdown
                         inputId={"edgeStyleDropdown"}

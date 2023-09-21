@@ -6,7 +6,7 @@ export interface StoryNode {
     choices: {text: string, next: string}[];
 }
 
-export const stories = [
+export const storyIDs = [
     "first_day_at_work",
     "golden_retriever",
     "talking_sword"
@@ -14,7 +14,7 @@ export const stories = [
 
 const loadStory =  (id: string): any => {
     // Load story from file in stories folder
-    const story = require(`../stories/${id}.json`);
+    const story = require(`./stories/${id}.json`);
     return story;
 }
 
