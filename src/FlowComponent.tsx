@@ -270,9 +270,9 @@ const FlowComponent = (props: FlowComponentProps) => {
 
     return (
         <div>
-            <h2>Flow Page</h2>
-            <div className={"card"} style={{
-                outline: "1px solid black",
+            <h2>Adventure Flow</h2>
+            <div style={{
+                borderBottom: "1px solid #000",
                 height: '10vh',
                 display: "flex",
                 flexDirection: "row",
