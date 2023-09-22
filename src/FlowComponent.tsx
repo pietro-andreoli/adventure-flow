@@ -144,6 +144,7 @@ const FlowComponent = (props: FlowComponentProps) => {
                 newNodes = [...newNodes, selectedNode];
                 const {nextNodes, nextEdges} = getNextOptions(selectedNode);
                 setCurrentFlowNode(selectedNode);
+                setCurrentStoryNode({title: selectedNode.data.label, text: selectedNode.data.content, choices: []})
                 return [...newNodes, ...nextNodes];
             }
             return [...prevNodes];
@@ -326,7 +327,7 @@ const FlowComponent = (props: FlowComponentProps) => {
 
             </div>
             <div style={{display: "flex", flexDirection: "column", maxHeight: "20vh", borderTop: "black 1px solid"}}>
-                <p style={{fontSize: "1.1vw"}}>{currentStoryNode?.text}</p>
+                <p style={{fontSize: "1.1vw"}}><b>{currentStoryNode?.title}</b><br/>{currentStoryNode?.text}</p>
             </div>
         </div>
     );

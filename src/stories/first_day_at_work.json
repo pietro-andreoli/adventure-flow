@@ -1,7 +1,7 @@
 {
   "start": {
     "title": "First day at the job",
-    "text": "A programmer is hired for a new job at a tech company. He was told it would be a 'fun' position in a fast paced environment, where he would face 'interesting' problems and work with industry professionals. Upon arriving at the office, he finds most desks are empty. Asking around for his manager, he finds that most of the employees working there are also new hires, and arent familiar with who hes looking for. After wandering around the eerily empty office, you finally locate your new manager. He hands you a 2007 Lenovo ThinkPad, with a few keys missing. He starts to tell you about their app and codebase.",
+    "text": "A programmer, newly hired at a tech firm, arrives to find a predominantly vacant office. Discovering many are recent hires, locating his manager becomes a challenge. Eventually finding him, he’s handed a decrepit 2007 Lenovo ThinkPad and briefed on the company's app and codebase.",
     "choices": [
       {
         "text": "Ask 'How old is the app?'",
