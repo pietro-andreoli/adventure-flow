@@ -7,10 +7,10 @@ import {
     MiniMap,
     Background,
     Controls,
-    BackgroundVariant
+    BackgroundVariant, useOnSelectionChange, addEdge
 } from "reactflow";
 import { useCallback, useEffect, useState } from "react";
-import { Story, StoryNode } from "./Story";
+import { PathChoice, Story, StoryNode } from "./Story";
 import 'reactflow/dist/style.css';
 import { graphlib, dagre } from "dagre-d3";
 import { tree } from "d3";
@@ -19,6 +19,8 @@ import { Dropdown } from "primereact/dropdown";
 import { ListBox } from "primereact/listbox";
 import { InputSwitch, InputSwitchChangeEvent } from "primereact/inputswitch";
 import StorySelectorComponent from "./StorySelectorComponent";
+import ButtonNodeComponent from "./ButtonNodeComponent";
+import "./styles.css";
 
 export interface FlowComponentProps {
 }
@@ -26,6 +28,10 @@ export interface FlowComponentProps {
 interface DropdownOption {
     name: string;
     code: string;
+}
+
+const nodeTypes = {
+    buttonNode: ButtonNodeComponent,
 }
 
 const FlowComponent = (props: FlowComponentProps) => {
@@ -55,21 +61,35 @@ const FlowComponent = (props: FlowComponentProps) => {
 
     }, []);
 
-    // useEffect(() => {
-    //     if (story) {
-    //         const startingNode = story.flowNodes.find(n => n.id === "start");
-    //         if (startingNode) {
-    //             setCurrentFlowNode(startingNode);
-    //             setNodes([startingNode]);
-    //         }
-    //     }
-    // }, [story]);
-
+    // useEffect to handle changes when a new story is selected.
     useEffect(() => {
         if (story) {
-            const formattedNodes = layoutNodes(story.flowNodes, story.flowEdges);
-            setNodes(formattedNodes);
-            const updatedEdges = story.flowEdges.map(edge => {
+            const laidOutNodes = layoutNodes(story.flowNodes, story.flowEdges);
+            story.flowNodes = laidOutNodes;
+            // Find starting node and set it as the current node
+            const startingNode = story.flowNodes.find(n => n.id === "start");
+            if (startingNode) {
+                setNodes([startingNode]);
+                setCurrentFlowNode(startingNode);
+                setCurrentStoryNode({ title: startingNode.data.label, text: startingNode.data.text, choices: [] });
+            }
+            setEdges(story.flowEdges);
+        }
+    }, [story]);
+
+    // Whenever nodes or edges changes, call layoutNodes to update the layout
+    useEffect(() => {
+        // if (nodes.length > 0 && edges.length > 0) {
+        //     const formattedNodes = layoutNodes(nodes, edges);
+        //     setNodes(formattedNodes);
+        // }
+    }, [nodes, edges]);
+
+    // useEffect to handle the visualization of edge styles and edge labels
+    useEffect(() => {
+        if (story) {
+            // Update the edges with the new edge style and edge label visibility
+            const updatedEdges: Edge[] = story.flowEdges.map(edge => {
                 return {
                     ...edge,
                     // Update edge style
@@ -79,14 +99,110 @@ const FlowComponent = (props: FlowComponentProps) => {
                 }
             });
             setEdges(updatedEdges);
-            const startingNode = story.flowNodes.find(n => n.id === "start");
-            if (startingNode) {
-                setCurrentFlowNode(startingNode);
-            }
         }
 
-    }, [story, edgeStyle, showEdgeLabels]);
+    }, [edgeStyle, showEdgeLabels]);
 
+    useEffect(() => {
+        if (currentFlowNode) {
+            const nextNodes = getNextOptions(currentFlowNode);
+            setNodes([...nodes, ...nextNodes.nextNodes]);
+            // setEdges([...edges, ...nextNodes.nextEdges]);
+        }
+    }, [currentFlowNode]);
+
+    useOnSelectionChange({
+        onChange: ({ nodes: selectedNodes, edges: selectedEdges }) => {
+            console.log('changed selection', selectedNodes, edges)
+            if (selectedNodes.length === 1) {
+                const selectedNode = selectedNodes[0];
+                // selectedNode.data.label = selectedNode.data.hiddenLabel ? selectedNode.data.hiddenLabel : selectedNode.data.label;
+                if (selectedNode.data.label.length > 0) {
+                    setCurrentStoryNode({title: selectedNode.data.label, text: selectedNode.data.content, choices: []});
+
+                }
+                // const index = nodes.findIndex(n => n.id === selectedNode.id);
+                // let x = [...nodes];
+                // x = x.map(n => {
+                //     return {
+                //         ...n,
+                //         data: { ...n.data, updateTrigger: !n.data.updateTrigger },
+                //     }
+                // })
+                // setNodes(x);
+            }
+        },
+    });
+
+    const nodeButtonOnClick =  useCallback((nodeData: {id: string, data: any}) => {
+        setNodes((prevNodes) => {
+            const selectedNode = prevNodes.find(n => n.id === nodeData.id);
+            if (selectedNode) {
+                selectedNode.data.label = selectedNode.data.hiddenLabel ? selectedNode.data.hiddenLabel : selectedNode.data.label;
+                let newNodes = [...prevNodes];
+                newNodes.splice(newNodes.indexOf(selectedNode), 1);
+                newNodes = [...newNodes, selectedNode];
+                const {nextNodes, nextEdges} = getNextOptions(selectedNode);
+                setCurrentFlowNode(selectedNode);
+                return [...newNodes, ...nextNodes];
+            }
+            return [...prevNodes];
+        });
+
+
+        // const y = nodes;
+        // const selectedNode = nodes.find(n => n.id === nodeData.id);
+        // if (selectedNode) {
+        //     selectedNode.data.label = selectedNode.data.hiddenLabel ? selectedNode.data.hiddenLabel : selectedNode.data.label;
+        //     setCurrentFlowNode(selectedNode);
+        // }
+    }, [story]);
+
+    const getNextOptions = (currentNode: Node) => {
+        if (story) {
+            const nextPathChoices: PathChoice[] = story.story[currentNode.id].choices;
+            if (nextPathChoices) {
+                const nextNodeIds = nextPathChoices.map((c: PathChoice) => c.next);
+                let nextNodes = story.flowNodes.filter(n => nextNodeIds.includes(n.id));
+                nextNodes = nextNodes.map(n => {
+                    return {
+                        ...n,
+                        type: "buttonNode",
+                        data: {
+                            hiddenLabel: n.data.label,
+                            label: "",
+                            hidden: true,
+                            updateTrigger: false,
+                            content: n.data.content,
+                            onButtonClick: nodeButtonOnClick
+                        },
+                        style: { border: '1px solid #000', padding: "5px", maxWidth: "250px" }
+                    }
+                });
+                const nextEdges: Edge[] = nextNodes.map(n => {
+                    const currPathChoice: PathChoice | undefined = nextPathChoices.find((c: PathChoice) => c.next === n.id);
+                    const edgeObj = {
+                        id: `${currentNode.id}-${n.id}`,
+                        source: currentNode.id,
+                        target: n.id,
+                        label: "MISSING LABEL"
+                    };
+                    if (currPathChoice) {
+                        return {
+                            ...edgeObj,
+                            label: currPathChoice.text
+                        }
+                    }
+                    return edgeObj;
+                });
+                const x = nodes;
+                const y = edges;
+                return { nextNodes, nextEdges };
+            }
+
+        }
+        return { nextNodes: [], nextEdges: [] };
+    }
 
     const onNodesChange = useCallback(
         (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -107,7 +223,7 @@ const FlowComponent = (props: FlowComponentProps) => {
         // Add nodes to the graph. The name is the node id. The second parameter is metadata about the node.
         // In this case we're going to add labels to each of our nodes.
         nodes.forEach(node => {
-            treeGraph.setNode(node.id, { width: 150, height: 50 });
+            treeGraph.setNode(node.id, { width: 250, height: 50 });
         });
 
         // Add edges to the graph.
@@ -144,6 +260,12 @@ const FlowComponent = (props: FlowComponentProps) => {
             setBackgroundType(e.value);
         }
     }
+
+    // const onConnect = useCallback(
+    //     (params: any) =>
+    //         setEdges((eds) => addEdge({ ...params, style: { stroke: '#fff' } }, eds)),
+    //     []
+    // );
 
     return (
         <div>
@@ -187,8 +309,9 @@ const FlowComponent = (props: FlowComponentProps) => {
                     <InputSwitch inputId="edgeStyleSwitch" checked={showEdgeLabels} onChange={(e) => handleShowEdgeLabelChange(e)} />
                 </div>
             </div>
-            <div style={{ width: '100vw', height: '80vh' }}>
+            <div style={{ width: '100vw', height: '70vh' }}>
                 <ReactFlow
+                    nodeTypes={nodeTypes}
                     nodes={nodes}
                     edges={edges}
                     onNodesChange={onNodesChange}
@@ -201,6 +324,9 @@ const FlowComponent = (props: FlowComponentProps) => {
                     <Background color="#aaa" gap={16} variant={backgroundType.code as BackgroundVariant} />
                 </ReactFlow>
 
+            </div>
+            <div style={{display: "flex", flexDirection: "column", maxHeight: "20vh", borderTop: "black 1px solid"}}>
+                <p style={{fontSize: "1.1vw"}}>{currentStoryNode?.text}</p>
             </div>
         </div>
     );

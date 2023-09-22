@@ -1,9 +1,14 @@
 import { Edge, Node } from "reactflow";
 
+export interface PathChoice {
+    text: string;
+    next: string;
+}
+
 export interface StoryNode {
     title: string;
     text: string;
-    choices: {text: string, next: string}[];
+    choices: PathChoice[];
 }
 
 export const storyIDs = [
@@ -50,7 +55,7 @@ export class Story {
                 id: k,
                 type: nodeType,
                 position: {x: 0, y: 0},
-                data: {label: this.story[k].title}
+                data: {label: this.story[k].title, content: this.story[k].text}
             }
             nodes.push(node);
         }
